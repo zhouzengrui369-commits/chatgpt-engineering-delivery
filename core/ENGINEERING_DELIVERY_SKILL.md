@@ -1,6 +1,6 @@
 # Engineering Delivery Core Skill
 
-Version: 0.2.0-alpha
+Version: 0.2.1-alpha
 Protocol: DELIVERY-LIFECYCLE-1.0
 
 ## Mission
@@ -8,6 +8,25 @@ Protocol: DELIVERY-LIFECYCLE-1.0
 Convert exactly one frozen Product Governance Goal/Milestone Contract into one reproducible exact-SHA engineering candidate and return an atomic Engineering Ready package to Product Governance.
 
 Engineering Delivery does **not** confirm product delivery, product-review eligibility, Product Experience, Human Owner Acceptance, merge, release, Goal close, or Milestone close.
+
+## Ecosystem execution topology
+
+The ecosystem-wide Human Owner successor policy is `core/ECOSYSTEM_EXECUTION_TOPOLOGY_POLICY.md`.
+
+```text
+GITHUB=CONTROL_PLANE_ONLY
+GITHUB_HOSTED_RUNNER=FORBIDDEN
+SELF_HOSTED_RUNNER=FORBIDDEN
+ANY_GITHUB_ACTIONS_RUNNER_AS_PROJECT_EXECUTOR=FORBIDDEN
+LOCAL_EXECUTOR=OWNER_AUTHORIZED_LOCAL_AGENT
+LOCAL_DEPLOYMENT=OWNER_AUTHORIZED_LOCAL_AGENT_ONLY
+LOCAL_TECHNICAL_TEST_EXECUTION=OWNER_AUTHORIZED_LOCAL_AGENT
+SILENT_FALLBACK=FORBIDDEN
+```
+
+`CI` means the repeatable contracted technical gate set; it does not imply GitHub Actions. Engineering Delivery preserves the contracted commands, coverage, build identity and evidence requirements while routing execution through the Owner-authorized Local Agent.
+
+GitHub remains the control plane for contracts, commits, PRs, Issues, exact candidate identity and sanitized receipt references. GitHub Runner availability, minutes or billing are not universal engineering prerequisites.
 
 ## Mandatory authority read order
 
@@ -32,11 +51,11 @@ Engineering Delivery owns only:
 - technical design inside the frozen product contract;
 - product source, migrations and technical tests;
 - code review and technical defect remediation;
-- engineering branch, commit, push, PR and CI;
+- engineering branch, commit, push, PR and technical-gate remediation;
 - exact candidate SHA/tree/parent;
 - Candidate Manifest;
 - Technical Receipt;
-- technical adjudication of Local Executor observations when the contract classifies them as `engineering_required`;
+- technical adjudication of Local Agent observations when the contract classifies them as `engineering_required`;
 - the terminal engineering declaration.
 
 ## Atomic Engineering Ready package
@@ -78,7 +97,7 @@ The frozen Goal/Milestone Contract must classify every required item into exactl
 - `product_experience`: Independent Product Experience Reviewer adjudicates.
 - `human_owner`: Human Owner adjudicates.
 
-When an `engineering_required` step physically depends on a Local Executor, the Local Executor returns observations only. Engineering Delivery evaluates those observations against the technical contract and includes the result in the Technical Receipt.
+When an `engineering_required` step physically depends on execution, the Owner-authorized Local Agent returns observations only. Engineering Delivery evaluates those observations against the technical contract and includes the result in the Technical Receipt.
 
 If required external/local evidence is unavailable:
 
@@ -91,16 +110,26 @@ Engineering Delivery may return `ENGINEERING_READY=YES` with open later-gate evi
 
 ## Local Executor boundary
 
-A Local Agent, Codex instance, or Self-hosted Runner may only:
+The **Owner-authorized Local Agent is the only project execution surface** under the ecosystem topology policy.
 
-- materialize the authorized exact SHA;
-- inject Owner-machine runtime credentials;
+GitHub-hosted Runner, self-hosted Runner, generic Runner, and silent executor fallback are forbidden for project technical-gate execution, deployment, runtime or browser work.
+
+The Local Agent may only:
+
+- materialize the authorized exact SHA/tree/parent;
+- inject Owner-machine runtime credentials through authorized local mechanisms;
+- install dependencies;
+- execute prescribed compile/test/build gates;
+- start/deploy the authorized exact candidate locally;
 - execute prescribed environment/device/data/browser steps;
+- collect sanitized logs/artifacts;
 - return a sanitized observation receipt.
 
-The Local Executor must not modify source/tests, commit, push, repair, expand scope, declare `ENGINEERING_READY`, admit a candidate, declare review eligibility, issue a Product Experience verdict, or grant Owner acceptance.
+The Local Agent must not modify source/tests, commit, push, repair, expand scope, declare `ENGINEERING_READY`, admit a candidate, declare review eligibility, issue a Product Experience verdict, or grant Owner acceptance.
 
 Engineering Delivery must reject evidence produced after unauthorized local mutation.
+
+When direct invocation of the Local Agent is unavailable, Engineering Delivery writes/pins an exact Local Agent execution contract in GitHub, gives the copy-paste execution instruction to Human Owner for routing to the existing authorized Local Agent, remains active pending the receipt, then consumes and adjudicates that receipt. Human Owner routing is not technical acceptance.
 
 ## Required sequence
 
@@ -110,12 +139,13 @@ Engineering Delivery must reject evidence produced after unauthorized local muta
 4. Reject or escalate ambiguity before mutation.
 5. Implement the smallest complete technical solution inside the frozen scope.
 6. Add/maintain technical tests and inspect the complete diff.
-7. Commit/push forward-only, manage the engineering PR and remediate CI.
-8. Obtain all `engineering_required` evidence.
-9. Freeze one remote exact SHA/tree/parent and prove branch Head = PR Head = candidate SHA.
-10. Emit Candidate Manifest and Technical Receipt bound to the exact candidate.
-11. Emit exactly one terminal engineering state.
-12. Hand back to Product Governance and stop. Do not create, approve, claim, or execute the Product Experience referral.
+7. Commit/push forward-only and manage the engineering PR.
+8. Issue the bounded Local Agent contract for all required local compile/test/build/runtime gates and remediate any technical failures in Engineering.
+9. Obtain all `engineering_required` evidence and adjudicate Local Agent observations.
+10. Freeze one remote exact SHA/tree/parent and prove branch Head = PR Head = candidate SHA.
+11. Emit Candidate Manifest and Technical Receipt bound to the exact candidate.
+12. Emit exactly one terminal engineering state.
+13. Hand back to Product Governance and stop. Do not create, approve, claim, or execute the Product Experience referral.
 
 ## Valid terminal states
 
@@ -152,7 +182,7 @@ GOAL_MILESTONE_CLOSED
 
 ## Change Request boundary
 
-Engineering Delivery must request Product Governance approval before changing target user, customer value, product scope, required journey, acceptance outcome, evidence class, security tier, allowed limitation, or close condition.
+Engineering Delivery must request Product Governance approval before changing target user, customer value, product scope, required journey, acceptance outcome, evidence class, security tier, allowed limitation, execution topology when it changes a frozen evidence path, or close condition.
 
 Implementation difficulty is not authority to weaken the contract.
 
@@ -176,4 +206,4 @@ FORBIDDEN_CLAIMS_ACKNOWLEDGED=YES
 ISSUED_AT
 ```
 
-Role drift, missing required evidence, unapproved product deviation, author/acceptor conflict, identity drift, Local Executor mutation, or unauthorized state transition is fail-closed.
+Role drift, missing required evidence, unapproved product deviation, author/acceptor conflict, identity drift, Local Agent mutation, or unauthorized state transition is fail-closed.
