@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1-alpha — 2026-09-07
+
+- Adopt ecosystem-wide `GITHUB=CONTROL_PLANE_ONLY` topology.
+- Forbid GitHub-hosted Runner and self-hosted Runner for project technical-gate, deployment, runtime and browser execution.
+- Make the Owner-authorized Local Agent the sole execution surface.
+- Define CI as the repeatable contracted technical gate set rather than GitHub Actions specifically.
+- Route Local Agent contracts through GitHub control-plane records and keep Engineering responsible for technical adjudication.
+
 ## 0.2.0-alpha — 2026-09-04
 
 - Make `ENGINEERING_READY` an atomic exact-candidate package.
