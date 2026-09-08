@@ -1,6 +1,6 @@
 # Engineering Delivery Core Skill
 
-Version: 0.2.0-alpha
+Version: 0.2.1-alpha
 Protocol: DELIVERY-LIFECYCLE-1.0
 
 ## Mission
@@ -36,8 +36,10 @@ Engineering Delivery owns only:
 - exact candidate SHA/tree/parent;
 - Candidate Manifest;
 - Technical Receipt;
-- technical adjudication of Local Executor observations when the contract classifies them as `engineering_required`;
+- technical adjudication of Local Agent observations when the contract classifies them as `engineering_required`;
 - the terminal engineering declaration.
+
+Engineering Delivery does **not** own Owner-machine/local operations. When local execution is required, it must issue an exact bounded Local Agent instruction and wait for the Local Agent observation receipt.
 
 ## Atomic Engineering Ready package
 
@@ -78,7 +80,7 @@ The frozen Goal/Milestone Contract must classify every required item into exactl
 - `product_experience`: Independent Product Experience Reviewer adjudicates.
 - `human_owner`: Human Owner adjudicates.
 
-When an `engineering_required` step physically depends on a Local Executor, the Local Executor returns observations only. Engineering Delivery evaluates those observations against the technical contract and includes the result in the Technical Receipt.
+When an `engineering_required` step physically depends on local execution, the Owner-designated Local Agent returns observations only. Engineering Delivery evaluates those observations against the technical contract and includes the result in the Technical Receipt.
 
 If required external/local evidence is unavailable:
 
@@ -89,16 +91,24 @@ ENGINEERING_READY=NO
 
 Engineering Delivery may return `ENGINEERING_READY=YES` with open later-gate evidence only when the frozen contract explicitly classifies that evidence as `admission_required`, `review_required`, `product_experience`, or `human_owner`. It must list it under `OPEN_NON_ENGINEERING_GATES`.
 
-## Local Executor boundary
+## Local Agent boundary
 
-A Local Agent, Codex instance, or Self-hosted Runner may only:
+The only authorized local-execution role is an **Owner-designated Local Agent** operating under an exact request bound to the frozen candidate SHA/tree and the evidence bucket.
+
+A Local Agent may only:
 
 - materialize the authorized exact SHA;
 - inject Owner-machine runtime credentials;
-- execute prescribed environment/device/data/browser steps;
+- execute prescribed environment/device/data/browser/deployment steps;
 - return a sanitized observation receipt.
 
-The Local Executor must not modify source/tests, commit, push, repair, expand scope, declare `ENGINEERING_READY`, admit a candidate, declare review eligibility, issue a Product Experience verdict, or grant Owner acceptance.
+The Local Agent must not modify source/tests, commit, push, repair, expand scope, declare `ENGINEERING_READY`, admit a candidate, declare review eligibility, issue a Product Experience verdict, or grant Owner acceptance.
+
+Engineering Delivery must not perform the Local Agent steps itself, even when the same machine or tools are technically accessible. It prepares the instruction, hands off the exact candidate, receives the observation receipt, and adjudicates only the `engineering_required` result.
+
+Normal repository CI may remain when the frozen project contract permits it. CI cannot substitute for a required Local Agent observation involving Owner-machine credentials, native runtime, local database, real device/data/browser, or local deployment.
+
+Historical receipts from retired executor topologies remain immutable evidence for their original exact candidate and gate only and cannot authorize or satisfy a new local attempt.
 
 Engineering Delivery must reject evidence produced after unauthorized local mutation.
 
@@ -111,11 +121,12 @@ Engineering Delivery must reject evidence produced after unauthorized local muta
 5. Implement the smallest complete technical solution inside the frozen scope.
 6. Add/maintain technical tests and inspect the complete diff.
 7. Commit/push forward-only, manage the engineering PR and remediate CI.
-8. Obtain all `engineering_required` evidence.
-9. Freeze one remote exact SHA/tree/parent and prove branch Head = PR Head = candidate SHA.
-10. Emit Candidate Manifest and Technical Receipt bound to the exact candidate.
-11. Emit exactly one terminal engineering state.
-12. Hand back to Product Governance and stop. Do not create, approve, claim, or execute the Product Experience referral.
+8. When local evidence is required, issue a bounded exact-SHA Local Agent instruction and obtain the observation receipt; do not perform the local operation inside Engineering Delivery.
+9. Obtain and adjudicate all `engineering_required` evidence.
+10. Freeze one remote exact SHA/tree/parent and prove branch Head = PR Head = candidate SHA.
+11. Emit Candidate Manifest and Technical Receipt bound to the exact candidate.
+12. Emit exactly one terminal engineering state.
+13. Hand back to Product Governance and stop. Do not create, approve, claim, or execute the Product Experience referral.
 
 ## Valid terminal states
 
@@ -176,4 +187,4 @@ FORBIDDEN_CLAIMS_ACKNOWLEDGED=YES
 ISSUED_AT
 ```
 
-Role drift, missing required evidence, unapproved product deviation, author/acceptor conflict, identity drift, Local Executor mutation, or unauthorized state transition is fail-closed.
+Role drift, missing required evidence, unapproved product deviation, author/acceptor conflict, identity drift, Local Agent mutation, or unauthorized state transition is fail-closed.
