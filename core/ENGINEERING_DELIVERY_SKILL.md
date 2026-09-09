@@ -66,7 +66,7 @@ UNAPPROVED_DEVIATIONS=NONE
 RECOMMENDED_NEXT_GATE=PRODUCT_GOVERNANCE_CANDIDATE_ADMISSION
 ```
 
-An exact SHA without both artifacts is not Engineering Ready. Artifacts without a matching exact SHA are not Engineering Ready. A Technical PASS, CI PASS, local runtime PASS, or source presence is not Engineering Ready by itself.
+An exact SHA without both artifacts is not Engineering Ready. Artifacts without a matching exact SHA are not Engineering Ready. A Technical PASS, CI PASS, local runtime PASS, Local Agent deployment PASS, or source presence is not Engineering Ready by itself.
 
 Engineering Delivery must never use `MILESTONE_READY`, `PRODUCT_READY`, `RELEASE_READY`, `PRODUCT_ACCEPTED`, or similar language as an alias for `ENGINEERING_READY`.
 
@@ -81,6 +81,8 @@ The frozen Goal/Milestone Contract must classify every required item into exactl
 - `human_owner`: Human Owner adjudicates.
 
 When an `engineering_required` step physically depends on local execution, the Owner-designated Local Agent returns observations only. Engineering Delivery evaluates those observations against the technical contract and includes the result in the Technical Receipt.
+
+When that local execution includes deployment, installation, runtime launch, or materialization of a runnable candidate, **post-deployment operational verification is part of the required local evidence**. Successful deployment/start/process/port/health evidence alone is insufficient.
 
 If required external/local evidence is unavailable:
 
@@ -100,17 +102,64 @@ A Local Agent may only:
 - materialize the authorized exact SHA;
 - inject Owner-machine runtime credentials;
 - execute prescribed environment/device/data/browser/deployment steps;
+- after deployment/runtime launch, perform prescribed post-deployment operational verification;
 - return a sanitized observation receipt.
 
 The Local Agent must not modify source/tests, commit, push, repair, expand scope, declare `ENGINEERING_READY`, admit a candidate, declare review eligibility, issue a Product Experience verdict, or grant Owner acceptance.
 
+### Required post-deployment Local Agent instruction
+
+If Engineering Delivery asks the Local Agent to deploy/install/launch/materialize a runnable candidate, the instruction must explicitly require:
+
+```text
+POST_DEPLOYMENT_OPERATIONAL_VERIFICATION=REQUIRED
+DEPLOYMENT_SUCCESS_ALONE=INSUFFICIENT
+BROWSER_VERIFICATION=REQUIRED_WHEN_BROWSER_OPERABLE_OR_BROWSER_JOURNEY_APPLIES
+VERIFICATION_METHOD=TOOL_AGNOSTIC
+LOCAL_AGENT_OWN_BROWSER_CAPABILITY=PREFERRED
+OWNER_FOREGROUND_BROWSER_OR_DESKTOP=LAST_RESORT
+```
+
+At minimum, applicable verification must establish:
+
+- deployed/runtime identity remains bound to the authorized exact candidate;
+- runtime/application reachability beyond process/port start;
+- primary surface opens/renders;
+- prescribed deployment smoke/critical journey can be operated;
+- blocking runtime/routing/loading/bootstrap/authentication/first-interaction failures are surfaced;
+- sanitized evidence references are returned.
+
+For browser-accessible products or browser-operable journeys, browser operation is the default route. Engineering Delivery must not prescribe an unnecessarily disruptive Owner-foreground method when an equivalent Local Agent-controlled route can prove the observation.
+
+Preference order:
+
+1. Local Agent built-in/program-provided browser capability or isolated browser surface;
+2. Local Agent-controlled headless/isolated browser or isolated browser profile/session;
+3. other non-disruptive browser automation that does not seize the Human Owner foreground mouse, keyboard, browser window or desktop;
+4. Human Owner foreground browser/desktop automation only when the required observation cannot be proven otherwise and the frozen contract permits it.
+
+If browser operation is not applicable, Engineering Delivery must require equivalent post-deployment operational verification through the Local Agent's own least-disruptive permitted runtime/UI/device capability. A stricter frozen project contract remains binding; if no permitted route can prove the required observation, Engineering Delivery returns the appropriate blocker rather than weakening the contract.
+
+If deployment succeeds but the required post-deployment verification returns `FAIL` or `BLOCKED`, Engineering Delivery may not treat deployment itself as satisfying the `engineering_required` bucket. The Local Agent must not self-repair; defects return to Engineering Delivery source/test work under the frozen contract.
+
 Engineering Delivery must not perform the Local Agent steps itself, even when the same machine or tools are technically accessible. It prepares the instruction, hands off the exact candidate, receives the observation receipt, and adjudicates only the `engineering_required` result.
 
-Normal repository CI may remain when the frozen project contract permits it. CI cannot substitute for a required Local Agent observation involving Owner-machine credentials, native runtime, local database, real device/data/browser, or local deployment.
+Normal repository CI may remain when the frozen project contract permits it. CI cannot substitute for a required Local Agent observation involving Owner-machine credentials, native runtime, local database, real device/data/browser, local deployment, or post-deployment operation.
 
-Historical receipts from retired executor topologies remain immutable evidence for their original exact candidate and gate only and cannot authorize or satisfy a new local attempt.
+Historical receipts from retired executor topologies or predecessor Local Agent contracts remain immutable evidence for their original exact candidate and gate only and cannot authorize or satisfy a new local attempt. They are not retroactively invalidated solely because the post-deployment rule applies prospectively.
 
 Engineering Delivery must reject evidence produced after unauthorized local mutation.
+
+```text
+LOCAL_AGENT_POST_DEPLOYMENT_PASS
+!= TECHNICAL_PASS
+!= ENGINEERING_READY
+!= CANDIDATE_ADMITTED
+!= PRODUCT_REVIEW_ELIGIBLE
+!= PRODUCT_EXPERIENCE_PASS
+!= HUMAN_OWNER_ACCEPTED
+!= RELEASE_AUTHORIZED
+```
 
 ## Required sequence
 
@@ -122,11 +171,12 @@ Engineering Delivery must reject evidence produced after unauthorized local muta
 6. Add/maintain technical tests and inspect the complete diff.
 7. Commit/push forward-only, manage the engineering PR and remediate CI.
 8. When local evidence is required, issue a bounded exact-SHA Local Agent instruction and obtain the observation receipt; do not perform the local operation inside Engineering Delivery.
-9. Obtain and adjudicate all `engineering_required` evidence.
-10. Freeze one remote exact SHA/tree/parent and prove branch Head = PR Head = candidate SHA.
-11. Emit Candidate Manifest and Technical Receipt bound to the exact candidate.
-12. Emit exactly one terminal engineering state.
-13. Hand back to Product Governance and stop. Do not create, approve, claim, or execute the Product Experience referral.
+9. If local deployment/runtime materialization occurred, verify the Local Agent receipt contains the required post-deployment operational result and applicable browser-route evidence; deployment-only success does not satisfy the evidence bucket.
+10. Obtain and adjudicate all `engineering_required` evidence.
+11. Freeze one remote exact SHA/tree/parent and prove branch Head = PR Head = candidate SHA.
+12. Emit Candidate Manifest and Technical Receipt bound to the exact candidate.
+13. Emit exactly one terminal engineering state.
+14. Hand back to Product Governance and stop. Do not create, approve, claim, or execute the Product Experience referral.
 
 ## Valid terminal states
 
