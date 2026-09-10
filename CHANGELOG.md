@@ -1,17 +1,21 @@
 # Changelog
 
-## 0.2.0-alpha — 2026-09-04
+## 0.2.2-alpha — 2026-09-10
 
-- Make `ENGINEERING_READY` an atomic exact-candidate package.
-- Separate Engineering Ready, Candidate Admission, Product Review eligibility, Product Experience, Human Owner acceptance, and closure into role-owned states.
-- Add machine-readable `DELIVERY-LIFECYCLE-1.0` state machine and fail-closed invalidation rules.
-- Classify every evidence requirement as engineering, admission, review, product-experience, or Human Owner owned.
-- Define Local Executor as observation-only and forbid it from issuing technical or product verdicts.
-- Add stronger Goal Delivery, Candidate Manifest, Technical Receipt, Local Execution, and Engineering Terminal contracts.
-- Add automated lifecycle validation.
+- Add Human Owner ecosystem visual-evidence authority `knowme-ecosystem#39`.
+- Require visual-product Engineering Ready to include human-reviewable visual evidence plus Engineering personal inspection of the actual evidence bytes.
+- Add `core/VISUAL_EVIDENCE_POLICY.md`.
+- Extend Local Agent request/receipt contracts with visual bundle refs, paired screenshots, interaction captures, dynamic evidence, difference index, SHA256 integrity manifest and source/test/runtime mapping.
+- Keep Local Agent visual adjudication `PENDING`; only Engineering Delivery may issue the Engineering visual `PASS|FAIL` conclusion.
+- Forbid text-only screenshot/gate receipts from satisfying the visual Engineering Ready gate.
+- Preserve historical Engineering terminals under the evidence rules effective when they were issued.
 
-## 0.1.0-alpha — 2026-09-03
+## 0.2.1-alpha — 2026-09-08/09
 
-- Bootstrap standalone Engineering Delivery Skill.
-- Enforce one Goal equals one Milestone.
-- Separate Engineering Delivery from Product Governance and independent product review.
+- Standardize Owner-designated Local Agent as sole local executor.
+- Require post-deployment operational/browser verification after local deployment/runtime materialization.
+- Keep Engineering Delivery off the Owner-machine execution path.
+
+## 0.2.0-alpha
+
+- Role-separated Engineering Delivery lifecycle baseline and atomic Engineering Ready package.
