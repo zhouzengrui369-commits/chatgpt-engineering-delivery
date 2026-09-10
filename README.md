@@ -1,34 +1,48 @@
 # ChatGPT Engineering Delivery
 
-A repository-native Skill for converting exactly one frozen Product Governance Goal/Milestone Contract into one reproducible exact-SHA engineering candidate.
+Engineering Delivery is a separate lifecycle role from Product Governance, Local Agent execution, Independent Product Experience Review, Human Owner acceptance, merge and release.
 
-## Canonical boundary
+Current staged successor version: `0.2.2-alpha`.
 
-Engineering Delivery owns technical design, product source/tests, code review, commits, PR, CI remediation, exact candidate identity, Candidate Manifest, Technical Receipt, and only the `ENGINEERING_READY` decision.
+## Core rule
 
-It does not own Candidate Admission, Product Review eligibility, Product Experience, Human Owner Acceptance, merge, release, Goal close, or Milestone close.
+Engineering Delivery converts one frozen Goal/Milestone Contract into one exact-SHA technical candidate and may declare only the Engineering terminal defined by the contract.
 
-## Mandatory lifecycle
+It owns source/tests/technical remediation/commit/push/PR/CI/exact candidate/Candidate Manifest/Technical Receipt. It does not change product meaning without Change Request and does not perform Owner-machine local operations.
+
+## Local execution
+
+Owner-designated Local Agent is the sole local executor. When deployment/runtime materialization is requested, post-deployment operational verification is mandatory. Local Agent output is observation evidence only.
+
+## Visual-product work
+
+Human Owner ecosystem authority: `zhouzengrui369-commits/knowme-ecosystem#39`.
+
+For visual-product work:
 
 ```text
-Product Governance freezes one Goal/Milestone Contract
-→ separate Engineering Delivery context
-→ exact SHA + Candidate Manifest + Technical Receipt
-→ ENGINEERING_READY
-→ stop and hand back
-→ Product Governance Candidate Admission
-→ Product Governance PRODUCT_REVIEW_ELIGIBLE
-→ Independent Product Experience Review
+ENGINEERING_VISUAL_EVIDENCE_REQUIRED=YES
+HUMAN_REVIEWABLE_VISUAL_EVIDENCE=COMPLETE
+ENGINEERING_VISUAL_EVIDENCE_INSPECTED=YES
+ENGINEERING_PERSONAL_EVIDENCE_INSPECTION_REQUIRED=YES
+ENGINEERING_VISUAL_CONFORMANCE=PASS
 ```
 
-`ENGINEERING_READY` is valid only as an atomic exact-candidate package. CI PASS, test PASS, runtime PASS, or source presence alone is insufficient.
+Engineering Delivery must personally open/view the actual visual evidence bytes. Screenshot counts, gate PASS text, Local Agent self-declared visual PASS or hashes without viewing the corresponding evidence are insufficient.
 
-## Read order
+Local Agent may capture/record/package/hash/sanitize/return visual evidence, but it does not own Engineering visual conformance, Demo return, Product Experience or Human Owner verdicts.
 
-1. `core/ENGINEERING_DELIVERY_SKILL.md`
-2. `core/DELIVERY_STATE_MACHINE.json`
-3. `contracts/GOAL_DELIVERY.md`
-4. target repository `AGENTS.md`
-5. target frozen Goal/Milestone Contract and exact locks
+See:
 
-Core invariant: **one Goal = one Milestone = one Engineering Delivery contract**.
+- `core/ENGINEERING_DELIVERY_SKILL.md`
+- `core/VISUAL_EVIDENCE_POLICY.md`
+- `contracts/LOCAL_EXECUTION.md`
+
+```text
+LOCAL_AGENT_OBSERVATION
+!= ENGINEERING_ADJUDICATION
+ENGINEERING_VISUAL_CONFORMANCE_PASS
+!= ENGINEERING_READY
+!= PRODUCT_EXPERIENCE_PASS
+!= HUMAN_OWNER_ACCEPTED
+```
